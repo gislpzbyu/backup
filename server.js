@@ -12,6 +12,7 @@ const dotenv = require("dotenv").config()
 //NEW ADDED
 const session = require("express-session")
 const pool = require('./database/')
+const accountRoute = require("./routes/accountRoute");
 const app = express()
 
 // Importar rutas y controladores
@@ -65,7 +66,7 @@ app.use(staticRoutes)
 app.get("/", baseController.buildHome)
 app.use("/inv", inventoryRoute)
 app.use("/detail", detailRoute)
-
+app.use("/account", accountRoute);
 // Ruta para probar un error 500
 app.get("/trigger-error", (req, res, next) => {
   next(new Error("Intentional Server Error")) // Disparar un error 500

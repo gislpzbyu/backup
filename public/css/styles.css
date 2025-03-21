@@ -484,3 +484,64 @@ body {
   margin-bottom: 15px;
   border-radius: 5px;
 }
+
+.login-container {
+  background-color: #2f4f6f;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  color: white;
+  width: 300px;
+  text-align: center;
+}
+
+.login-container h2 {
+  margin-bottom: 20px;
+}
+
+.login-container label {
+  display: block;
+  margin-bottom: 5px;
+  text-align: left;
+  color: #ddd;
+}
+
+.login-container input[type="email"],
+.login-container input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.login-container button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #3c6e91;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-container button:hover {
+  background-color: #2d556d;
+}
+
+.login-container p {
+  margin-top: 15px;
+  color: #ccc;
+}
+
+.login-container a {
+  color: #69b3d0;
+  text-decoration: none;
+}
+
+.login-container a:hover {
+  text-decoration: underline;
+}
