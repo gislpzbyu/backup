@@ -477,3 +477,10 @@ body {
   padding: 10px 20px;
 }
 
+/* NEW ADDED Sessions & Messages*/
+.notice {
+  color: #ff0000;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+}
