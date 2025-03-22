@@ -616,3 +616,18 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+input:required:invalid {
+  border: 2px solid red;
+}
+
+input:required:valid {
+  border: 2px solid green;
+}
+
+span {
+  display: block;
+  margin-bottom: 8px;
+  color: #666;
+  font-size: 0.9em;
+}

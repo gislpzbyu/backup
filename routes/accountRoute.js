@@ -1,19 +1,24 @@
-// routes/accountRoute.js
 const express = require("express");
 const router = new express.Router();
 const utilities = require("../utilities/");
 const accountController = require("../controllers/accountController");
 
-// Route for the login view
+// Route for the login view (GET)
 router.get("/login", accountController.buildLogin);
 
-// Route for the registration view
+// Route to process login (POST)
+router.post("/login", utilities.handleErrors(accountController.processLogin));
+
+// Route for the registration view (GET)
 router.get("/register", accountController.buildRegister);
 
-// Error handling middleware
+// Route to process registration (POST)
+router.post("/register", utilities.handleErrors(accountController.registerAccount));
+
+// Enhanced error handling middleware
 router.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send("Something went wrong!");
+  console.error("Error occurred:", err.message);
+  res.status(500).json({ error: "Internal Server Error", message: err.message });
 });
 
 module.exports = router;

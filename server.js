@@ -6,90 +6,90 @@
 /* ***********************
  * Require Statements
  *************************/
-const express = require("express")
-const expressLayouts = require("express-ejs-layouts")
-const dotenv = require("dotenv").config()
-//NEW ADDED
-const session = require("express-session")
-const pool = require('./database/')
+const express = require("express");
+const expressLayouts = require("express-ejs-layouts");
+const dotenv = require("dotenv").config();
+const session = require("express-session");
+const pool = require("./database/");
 const accountRoute = require("./routes/accountRoute");
-const app = express()
 
 // Importar rutas y controladores
-const staticRoutes = require("./routes/static")
-const baseController = require("./controllers/baseController")
-const inventoryRoute = require("./routes/inventoryRoute")
-const detailRoute = require("./routes/detailRoute")
-const errorController = require("./controllers/errorController") // Nuevo controlador de errores
+const staticRoutes = require("./routes/static");
+const baseController = require("./controllers/baseController");
+const inventoryRoute = require("./routes/inventoryRoute");
+const detailRoute = require("./routes/detailRoute");
+const errorController = require("./controllers/errorController");
+
+const app = express();
 
 /* ***********************
  * Middleware
  *************************/
-app.use(express.json()) // Para procesar JSON
-app.use(express.urlencoded({ extended: true })) // Para formularios
-app.use(express.static("public")) // Para servir archivos estáticos (CSS, JS, imágenes)
+app.use(express.json()); // Procesar JSON
+app.use(express.urlencoded({ extended: true })); // Formularios
+app.use(express.static("public")); // Archivos estáticos (CSS, JS, imágenes)
 
-//NEW ADDED
-/* ***********************
- * Middleware
- * ************************/
-app.use(session({
-  store: new (require('connect-pg-simple')(session))({
-    createTableIfMissing: true,
-    pool,
-  }),
-  secret: process.env.SESSION_SECRET,
-  resave: true,
-  saveUninitialized: true,
-  name: 'sessionId',
-}))
+// Configuración de sesión
+app.use(
+  session({
+    store: new (require("connect-pg-simple")(session))({
+      createTableIfMissing: true,
+      pool,
+    }),
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    name: "sessionId",
+    cookie: {
+      secure: false, // Cambiar a true en producción con HTTPS
+      maxAge: 1000 * 60 * 60 * 24, // 1 día en milisegundos
+    },
+  })
+);
 
-//NEW ADDED
 // Express Messages Middleware
-app.use(require('connect-flash')())
-app.use(function(req, res, next){
-  res.locals.messages = require('express-messages')(req, res)
-  next()
-})
+app.use(require("connect-flash")());
+app.use(function (req, res, next) {
+  res.locals.messages = require("express-messages")(req, res);
+  next();
+});
 
 /* ***********************
- * View Engine and Templates
+ * Motor de vistas y plantillas
  *************************/
-app.set("view engine", "ejs")
-app.use(expressLayouts)
-app.set("layout", "./layouts/layout") // Asegura que el layout esté bien configurado
+app.set("view engine", "ejs");
+app.use(expressLayouts);
+app.set("layout", "./layouts/layout");
 
 /* ***********************
- * Routes
+ * Rutas
  *************************/
-app.use(staticRoutes)
-app.get("/", baseController.buildHome)
-app.use("/inv", inventoryRoute)
-app.use("/detail", detailRoute)
+app.use(staticRoutes);
+app.get("/", baseController.buildHome);
+app.use("/inv", inventoryRoute);
+app.use("/detail", detailRoute);
 app.use("/account", accountRoute);
+
 // Ruta para probar un error 500
 app.get("/trigger-error", (req, res, next) => {
-  next(new Error("Intentional Server Error")) // Disparar un error 500
-})
+  next(new Error("Intentional Server Error"));
+});
 
 /* ***********************
- * Error Handling Middleware
+ * Manejadores de errores
  *************************/
-
-// 404 Error Handler
-app.use(errorController.handle404)
-// 500 Error Handler
-app.use(errorController.handle500)
+app.use(errorController.handle404); // Error 404
+app.use(errorController.handle500); // Error 500
 
 /* ***********************
- * Local Server Information
+ * Información del servidor local
  *************************/
-const port = process.env.PORT || 3000
-const host = process.env.HOST || "localhost"
+const port = process.env.PORT || 3000;
+const host = process.env.HOST || "localhost";
 
 /* ***********************
- * Start Server
+ * Iniciar servidor
  *************************/
 app.listen(port, () => {
-  console.log(`App listening on ${host}:${port}`)
-})
+  console.log(`App listening on ${host}:${port}`);
+});
