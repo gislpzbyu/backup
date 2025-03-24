@@ -16,4 +16,8 @@ async function registerAccount(account_firstname, account_lastname, account_emai
   }
 }
 
+async function Login(password, username) {
+  console.log(password, username)
+}
+
 module.exports = { registerAccount };
