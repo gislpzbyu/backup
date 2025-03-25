@@ -31,5 +31,22 @@ async function getCarById(carId) {
   ]);
 }
 
-module.exports = {getClassifications, getInventoryByClassificationId, getCarById};
+async function addNewClassification(classification_name) {
+  return await pool.query("INSERT INTO public.classification (classification_name) VALUES ($1)", [classification_name])
+}
+
+async function addNewInventory(inv_make, inv_model, inv_year, inv_color, inv_price, inv_mileage, inv_img, classification_id) {
+  return await pool.query(
+    "INSERT INTO public.inventory (inv_make, inv_model, inv_year, inv_color, inv_price, inv_miles, inv_image, classification_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)",
+    [inv_make, inv_model, inv_year, inv_color, inv_price, inv_mileage, inv_img, classification_id]
+  )
+}
+
+module.exports = {
+  getClassifications,
+  getInventoryByClassificationId,
+  getCarById,
+  addNewClassification,
+  addNewInventory
+};
 

@@ -29,4 +29,43 @@ invCont.buildByClassificationId = async function (req, res, next) {
   }
 }
 
+invCont.buildInventory = async function (req, res, next) {
+  try {
+    let nav = await utilities.getNav(req.originalUrl)
+    res.render("./inventory/index", { title: "Inventory", nav })
+  } catch (error) {
+    next(error)
+  }
+}
+
+invCont.buildAddNewClassification = async function (req, res, next) {
+  try {
+    let nav = await utilities.getNav(req.originalUrl)
+    res.render("./inventory/add-classification", { title: "Add New Classification", nav })
+  } catch (error) {
+    next(error)
+  }
+}
+
+invCont.addNewClassification = async function (req, res, next) {
+  try {
+    const { classification_name } = req.body
+
+    // Este Cnotrola la inserccion en la base de datos, hazlo parecido] invModel.AddNewClas...
+    await invModel.addNewClassification(classification_name)
+    res.redirect("/inv")
+  } catch (error) {
+    next(error)
+  }
+}
+
+invCont.buildAddNewInventory = async function (req, res, next) {
+  try {
+    let nav = await utilities.getNav(req.originalUrl)
+    res.render("./inventory/add-inventory", { title: "Add New Inventory", nav })
+  } catch (error) {
+    next(error)
+  }
+}
+
 module.exports = invCont
