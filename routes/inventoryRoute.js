@@ -20,6 +20,6 @@ router.post("/add-classification", invController.addNewClassification);
 router.get("/add-inventory", invController.buildAddNewInventory);
 
 // Add New Route post
-
+router.post("/add-inventory", invController.addNewInventory);
 
 module.exports = router;

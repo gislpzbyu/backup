@@ -26,10 +26,17 @@ Util.getNav = async function (currentUrl) {
  * Build the classification view HTML
  *************************************** */
 Util.buildClassificationGrid = async function (data) {
-  let grid;
-  if (data.length > 0) {
-    grid = '<div class="grid-container">';
-    data.forEach(function (vehicle) {
+  console.log('Data recibida para grid:', data);
+
+  // Validamos que data sea un array y tenga contenido
+  if (!Array.isArray(data) || data.length === 0) {
+    return '<p class="notice">Sorry, no matching vehicles could be found.</p>';
+  }
+
+  let grid = '<div class="grid-container">';
+
+  data.forEach(vehicle => {
+    if (vehicle?.inv_id && vehicle?.inv_make && vehicle?.inv_model && vehicle?.inv_price && vehicle?.inv_thumbnail) {
       grid += '<div class="grid-item">';
       grid += `<a href="../../detail/${vehicle.inv_id}" title="View ${vehicle.inv_make} ${vehicle.inv_model} details">`;
       grid += `<img src="${vehicle.inv_thumbnail}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model} on CSE Motors" class="vehicle-img"/></a>`;
@@ -37,11 +44,12 @@ Util.buildClassificationGrid = async function (data) {
       grid += `<h2><a href="../../detail/${vehicle.inv_id}" title="View ${vehicle.inv_make} ${vehicle.inv_model} details">${vehicle.inv_make} ${vehicle.inv_model}</a></h2>`;
       grid += `<span class='price'>$${new Intl.NumberFormat("en-US").format(vehicle.inv_price)}</span>`;
       grid += "</div></div>";
-    });
-    grid += "</div>";
-  } else {
-    grid = '<p class="notice">Sorry, no matching vehicles could be found.</p>';
-  }
+    } else {
+      console.warn("Datos incompletos para el vehículo:", vehicle);
+    }
+  });
+
+  grid += "</div>";
   return grid;
 };
 
@@ -49,6 +57,9 @@ Util.buildClassificationGrid = async function (data) {
  * Build the vehicle detail page HTML
  *************************************** */
 Util.buildDetailPage = async function (data) {
+
+  console.log('data', data);
+
   if (!data) {
     return '<p class="notice">Sorry, no details available for this vehicle.</p>';
   }

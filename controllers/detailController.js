@@ -15,6 +15,7 @@ detailController.buildDetail = async function (req, res, next) {
       return res.status(404).render("errors/404", { title: "Page Not Found" });
     }
 
+
     const carDetails = await utilities.buildDetailPage(data.rows[0]);
     let nav = await utilities.getNav(req.originalUrl);
 

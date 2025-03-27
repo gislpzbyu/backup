@@ -631,3 +631,9 @@ span {
   color: #666;
   font-size: 0.9em;
 }
+
+.centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
