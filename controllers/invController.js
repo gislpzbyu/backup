@@ -84,11 +84,11 @@ invCont.addNewClassification = async function (req, res, next) {
     }
 
     // Insertar la nueva clasificación en la base de datos
-    // await invModel.addNewClassification(classification_name);
+    await invModel.addNewClassification(classification_name);
 
     // Mensaje de éxito y redirección
     req.flash("notice", "¡Clasificación agregada exitosamente!");
-    // res.redirect("/inv");
+    res.redirect("/inv");
   } catch (error) {
     console.error("Error al agregar clasificación:", error);
     req.flash("notice", "Error inesperado al agregar la clasificación.");
